@@ -1,0 +1,37 @@
+{
+  "name": "inversifyjs-migrate",
+  "version": "0.0.1",
+  "description": "It provides migration workflow that reuses InversifyJS containers.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha -r node_modules/reflect-metadata/Reflect.js --require ts-node/register test/**/*.test.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vlikin/inversifyjs-migrate.git"
+  },
+  "author": "vlikin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vlikin/inversifyjs-migrate/issues"
+  },
+  "homepage": "https://github.com/vlikin/inversifyjs-migrate#readme",
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/commander": "^2.12.2",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.18",
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.2",
+    "fs-extra": "^7.0.1",
+    "gulp": "^4.0.0",
+    "gulp-typescript": "^5.0.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.2.0",
+    "reflect-metadata": "^0.1.12",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.12.1",
+    "typescript": "^3.2.2",
+    "inversify": "^5.0.1"
+  }
+}
