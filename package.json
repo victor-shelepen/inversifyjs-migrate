@@ -2,7 +2,7 @@
   "name": "inversifyjs-migrate",
   "version": "0.0.1",
   "description": "It provides migration workflow that reuses InversifyJS containers.",
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "mocha -r node_modules/reflect-metadata/Reflect.js --require ts-node/register test/**/*.test.ts"
   },
