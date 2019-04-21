@@ -4,7 +4,10 @@
   "description": "It provides migration workflow that reuses InversifyJS containers.",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha -r node_modules/reflect-metadata/Reflect.js --require ts-node/register test/**/*.test.ts"
+    "test": "mocha -r node_modules/reflect-metadata/Reflect.js --require ts-node/register test/**/*.test.ts",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- -r node_modules/reflect-metadata/Reflect.js --require ts-node/register -R spec test/**/*.test.ts ",
+    "lint-fix": "tslint -c tslint.json --fix 'src/**/*.ts'"
   },
   "repository": {
     "type": "git",
