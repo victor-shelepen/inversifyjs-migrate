@@ -6,6 +6,6 @@ export interface IGroupMetadata {
 export type TGroupsMetadata = IGroupMetadata[];
 
 export interface IMigration {
-    up(): Promise<void> | void,
-    down(): Promise<void> | void
+    up(): Promise<void> | void;
+    down(): Promise<void> | void;
 }

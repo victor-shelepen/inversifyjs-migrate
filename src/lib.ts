@@ -1,6 +1,6 @@
-import {injectable, decorate} from 'inversify';
-import {IGroupMetadata, TGroupsMetadata} from './declaration';
-import {METADATA_KEY} from './constant';
+import {injectable, decorate} from "inversify";
+import {IGroupMetadata, TGroupsMetadata} from "./declaration";
+import {METADATA_KEY} from "./constant";
 
 export function getMigrationsMetadata(): TGroupsMetadata {
     return Reflect.getMetadata(
@@ -9,7 +9,7 @@ export function getMigrationsMetadata(): TGroupsMetadata {
     );
 }
 
-export function migration(name = 'default') {
+export function migration(name = "default") {
     return function (target: any) {
         let currentMetadata: IGroupMetadata = {
             name,
