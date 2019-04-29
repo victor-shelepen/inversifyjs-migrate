@@ -1,5 +1,6 @@
 export const name = "inversify-migrate";
 
 export const METADATA_KEY = {
-    migration: `${name}:migration`
+    migration: `${name}:migration`,
+    version: `${name}:version`
 };

@@ -1,5 +1,5 @@
-import {injectable, decorate} from "inversify";
-import {IGroupMetadata, TGroupsMetadata} from "./declaration";
+import {injectable, decorate, Container} from 'inversify';
+import {ContainerType, IGroupMetadata, TGroupsMetadata} from './declaration';
 import {METADATA_KEY} from "./constant";
 
 export function getMigrationsMetadata(): TGroupsMetadata {
@@ -37,6 +37,14 @@ export function migration(name = "default") {
             Reflect
         );
     };
+}
+
+export function registerMigrations(container: Container) {
+    const migrationsMetadata = getMigrationsMetadata();
+    for (const migrationMetadata of migrationsMetadata) {
+        migrationMetadata.target.prototype.version = migrationMetadata.name;
+        container.bind(ContainerType.Migration).to(migrationMetadata.target);
+    }
 }
 
 export function cleanUpMetadata() {
