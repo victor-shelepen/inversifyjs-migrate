@@ -1,5 +1,5 @@
-import {injectable, decorate, Container} from 'inversify';
-import {ContainerType, IGroupMetadata, TGroupsMetadata} from './declaration';
+import {injectable, decorate, Container} from "inversify";
+import {ContainerType, IGroupMetadata, TGroupsMetadata} from "./declaration";
 import {METADATA_KEY} from "./constant";
 
 export function getMigrationsMetadata(): TGroupsMetadata {

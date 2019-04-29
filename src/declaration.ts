@@ -1,4 +1,4 @@
-export const name = 'migration-manager';
+export const name = "migration-manager";
 
 export interface IGroupMetadata {
     name: string;
@@ -24,7 +24,7 @@ export interface ICurrentVersionContainer {
 }
 
 export interface IMigrationManagerContainer {
-    getMigrations(): Promise<any> | any,
+    getMigrations(): Promise<any> | any;
     getCurrentVersion(): Promise<string> | string;
-    run(): Promise<void> | void
+    run(): Promise<void> | void;
 }
