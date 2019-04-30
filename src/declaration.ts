@@ -1,3 +1,5 @@
+import {MigrationContainerBase} from "./migration-container-base";
+
 export const name = "migration-manager";
 
 export interface IGroupMetadata {
@@ -24,7 +26,7 @@ export interface ICurrentVersionContainer {
 }
 
 export interface IMigrationManagerContainer {
-    getMigrations(version?: string, down?: boolean): Promise<any> | any;
+    getMigrations(version?: string, down?: boolean): Promise<MigrationContainerBase[]>;
     getCurrentVersion(): Promise<string> | string;
-    run(): Promise<void> | void;
+    run(version?: string, down?: boolean): Promise<void> | void;
 }

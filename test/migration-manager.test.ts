@@ -14,6 +14,7 @@ import {MigrationContainerBase} from '../src/migration-container-base';
 describe('Migration manager container', () => {
     let container: Container;
     let migrationManagerContainer: IMigrationManagerContainer;
+    let currentVersionContainer: CurrentVersionContainer;
 
     before(() => {
         cleanUpMetadata();
@@ -70,6 +71,7 @@ describe('Migration manager container', () => {
         container.bind<IMigrationManagerContainer>(ContainerType.MigrationManager).to(MigrationManagerContainer).inSingletonScope();
         registerMigrations(container);
         migrationManagerContainer = container.get<IMigrationManagerContainer>(ContainerType.MigrationManager);
+        currentVersionContainer = container.get<CurrentVersionContainer>(ContainerType.CurrentVersion)
     });
 
     it('Get version', async () => {
@@ -80,12 +82,19 @@ describe('Migration manager container', () => {
     it('Get above migrations', async () => {
         const migrations = await migrationManagerContainer.getMigrations();
         expect(migrations.length).equal(2);
-        expect(migrations[0].version).equal('0.0.7');
-        expect(migrations[1].version).equal('0.0.8');
+        expect(migrations[0].getVersion()).equal('0.0.7');
+        expect(migrations[1].getVersion()).equal('0.0.8');
     });
+
     it('Get under migrations', async () => {
         const migrations = await migrationManagerContainer.getMigrations(undefined, true);
         expect(migrations.length).equal(1);
-        expect(migrations[0].version).equal('0.0.5');
+        expect(migrations[0].getVersion()).equal('0.0.5');
+    });
+
+    it('Run migration', async () => {
+        await migrationManagerContainer.run();
+        const version = await currentVersionContainer.getVersion();
+        expect(version).equal('0.0.8');
     });
 });

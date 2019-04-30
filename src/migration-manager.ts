@@ -14,22 +14,21 @@ export class MigrationManagerContainer implements IMigrationManagerContainer {
     private currentVersionContainer: ICurrentVersionContainer;
 
     @multiInject(ContainerType.Migration)
-    private migrations: (typeof  MigrationContainerBase)[];
+    private migrations: MigrationContainerBase[];
 
-    public async getMigrations(currentVersion: string  | undefined, down: boolean = false) {
+    public async getMigrations(currentVersion: string  | undefined, down = false): Promise<MigrationContainerBase[]> {
         if (!currentVersion) {
             currentVersion = await this.currentVersionContainer.getVersion();
         }
         if (!down) {
             return this.migrations
-                .sort((a, b) => compareVersions(a.version, b.version))
-                .filter((m) => compareVersions(m.version, <string>currentVersion) === 1);
-        }
-        else {
+                .sort((a, b) => compareVersions(a["version"], b["version"]))
+                .filter((m) => compareVersions(m["version"], <string>currentVersion) === 1);
+        } else {
             return this.migrations
-                .sort((a, b) => compareVersions(a.version, b.version))
+                .sort((a, b) => compareVersions(a["version"], b["version"]))
                 .reverse()
-                .filter((m) => compareVersions(m.version, <string>currentVersion) === -1);
+                .filter((m) => compareVersions(m["version"], <string>currentVersion) === -1);
         }
     }
 
@@ -37,7 +36,15 @@ export class MigrationManagerContainer implements IMigrationManagerContainer {
         return this.currentVersionContainer.getVersion();
     }
 
-    public run() {
-        // @todo later.
+    public async run(currentVersion: string  | undefined, down = false) {
+        const migrations = await this.getMigrations(currentVersion, down);
+        for (const migration of migrations) {
+            if (down) {
+                await migration.down();
+            } else {
+                await migration.up();
+            }
+            await this.currentVersionContainer.setVersion(migration.getVersion());
+        }
     }
 }
