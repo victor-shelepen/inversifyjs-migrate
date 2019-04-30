@@ -14,13 +14,23 @@ export class MigrationManagerContainer implements IMigrationManagerContainer {
     private currentVersionContainer: ICurrentVersionContainer;
 
     @multiInject(ContainerType.Migration)
-    private migrations: MigrationContainerBase[];
+    private migrations: (typeof  MigrationContainerBase)[];
 
-    public async getMigrations() {
-        const currentVersion = await this.currentVersionContainer.getVersion();
-        return this.migrations
-            .sort((a, b) => compareVersions(a["version"], b["version"]))
-            .filter((m) => compareVersions(m["version"], currentVersion));
+    public async getMigrations(currentVersion: string  | undefined, down: boolean = false) {
+        if (!currentVersion) {
+            currentVersion = await this.currentVersionContainer.getVersion();
+        }
+        if (!down) {
+            return this.migrations
+                .sort((a, b) => compareVersions(a.version, b.version))
+                .filter((m) => compareVersions(m.version, <string>currentVersion) === 1);
+        }
+        else {
+            return this.migrations
+                .sort((a, b) => compareVersions(a.version, b.version))
+                .reverse()
+                .filter((m) => compareVersions(m.version, <string>currentVersion) === -1);
+        }
     }
 
     public async getCurrentVersion(): Promise<string> {

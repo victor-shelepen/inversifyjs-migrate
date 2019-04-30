@@ -54,6 +54,17 @@ describe('Migration manager container', () => {
             }
         }
 
+        @migration('0.0.5')
+        class _0_0_5_Migration extends MigrationContainerBase {
+            up() {
+                project.state = 'State->0.0.5'
+            }
+
+            down() {
+                project.state = 'State->0.0.4'
+            }
+        }
+
         container = new Container();
         container.bind<ICurrentVersionContainer>(ContainerType.CurrentVersion).to(CurrentVersionContainer).inSingletonScope();
         container.bind<IMigrationManagerContainer>(ContainerType.MigrationManager).to(MigrationManagerContainer).inSingletonScope();
@@ -66,10 +77,15 @@ describe('Migration manager container', () => {
         expect(version).equal('0.0.6');
     });
 
-    it('Get migrations', async () => {
+    it('Get above migrations', async () => {
         const migrations = await migrationManagerContainer.getMigrations();
-        expect(migrations.length).equal(2)
+        expect(migrations.length).equal(2);
         expect(migrations[0].version).equal('0.0.7');
         expect(migrations[1].version).equal('0.0.8');
+    });
+    it('Get under migrations', async () => {
+        const migrations = await migrationManagerContainer.getMigrations(undefined, true);
+        expect(migrations.length).equal(1);
+        expect(migrations[0].version).equal('0.0.5');
     });
 });

@@ -24,7 +24,7 @@ export interface ICurrentVersionContainer {
 }
 
 export interface IMigrationManagerContainer {
-    getMigrations(): Promise<any> | any;
+    getMigrations(version?: string, down?: boolean): Promise<any> | any;
     getCurrentVersion(): Promise<string> | string;
     run(): Promise<void> | void;
 }
